@@ -1,7 +1,7 @@
-const startBtn = document.querySelector('#start-btn');
-const stopBtn = document.querySelector('#stop-btn');
-const resultDiv = document.querySelector('#result-div');
-const meisi = document.querySelector('#meisi')
+const startBtn = document.getElementById('#start-btn');
+const stopBtn = document.getElementById('#stop-btn');
+const resultDiv = document.getElementById('#result-div');
+const meisi = document.getElementById('#meisi')
 
 SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
 let recognition = new SpeechRecognition();
@@ -16,7 +16,14 @@ recognition.onresult = (event) => {
 
 		resultDiv.innerHTML = transcript;
 
-		
+		kuromoji.builder({ dicpath: "dict/"}).build(function(err, tokenizer){
+			if(err){
+				console.log(err);
+			}else{
+				var tokens = tokenizer.tokenize(transcript);
+				
+			}
+		}
 
 	} else {
 		resultDiv.innerHTML = '<div style="color:#ddd;">' + transcript + '</div>';
