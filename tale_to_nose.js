@@ -78,10 +78,11 @@ function match(word){
 
 function search_n_disp(word){
 	var rand = Math.floor(Math.random() * 1130528);
+	console.log(rand);
 	if(rand % 2 == 0){
 		for(var i = rand; i < dict.length - rand; i++){
 			if(word == dict[i][2] && tale(dict[i][1]) != 'ン'){
-				if(check_letter(extraction_word(dict[i][1])) , 1){
+				if(check_letter(extraction_word(dict[i][1]) , 1)){
 					enemy_word.innerHTML = dict[i][0] + "<br />" + dict[i][1];
 					shiri_letter.innerHTML = tale(extraction_word(dict[i][1]));
 					return;
@@ -89,9 +90,12 @@ function search_n_disp(word){
 			}
 		}
 	}else{
+		console.log(rand);
 		for(var i = rand; i > 0; i--){
+			console.log(i);
 			if(word == dict[i][2] && tale(dict[i][1]) != 'ン'){
-				if(check_letter(extraction_word(dict[i][1])) , 1){
+				
+				if(check_letter(extraction_word(dict[i][1]) , 1)){
 					enemy_word.innerHTML = dict[i][0] + "<br />" + dict[i][1];
 					shiri_letter.innerHTML = tale(extraction_word(dict[i][1]));
 					return;
@@ -99,6 +103,7 @@ function search_n_disp(word){
 			}
 		}
 	}
+	console.log("unko");
 	//search_n_disp(word);
 }
 
@@ -164,6 +169,7 @@ function judge(){
 }
 
 function check_letter(word , option){
+	console.log(option);
 	var check = 0;
 	if(option == 0){
 		for(var i = 1; i < word.length; i++){
