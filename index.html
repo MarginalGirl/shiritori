@@ -2,22 +2,24 @@
 <html lang="ja">
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="dttn.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>音声認識</title>
-	<style type="text/css">
-		body {
-			background: #eeeeee;
-			font-family: 'Yu Mincho'
-		}
-	</style>
+	<title>しりとり</title>
 </head>
 <body>
-	<button id="start-btn">start</button>
-	<button id="stop-btn">stop</button>
-	<div id="result-div"></div>
-	<div id="meisi"></div>
+	<div class="p">Player</div>
+	<div id="result-div"><br></div>
+	<div id="player_word"><br></div>
+	<div id="player_fif"></div>
+	<button id="start-btn">録音</button>
+	<button id="stop-btn">ストップ</button>
+	<button id="enter-btn">決定</button>
+	<div id="attention"></div><br>
+	<div id="shiri_letter">リ</div><br>
+	<div class="p">Enemy</div>
+	<div id="enemy_word"></div>
+	<div id="enemy_fif"></div>
 
-	<script src = "onseininsiki.js"></script>
-	<script src = "kuromoji.js"></script>
+	<script src = "tale_to_nose.js"></script>
 </body>
 </html>

@@ -1,0 +1,21 @@
+body {
+	background: #eeeeee;
+	font-family: 'Meiryo';
+}
+
+#shiri_letter{
+	color: blue;
+	font-weight: bold;
+	font-size: 25px;
+}
+
+.p{
+	color: red;
+	font-size: 30px;
+	font-weight: bold;
+}
+
+#attention{
+	color: orange;
+	font-weight: bold;
+}
