@@ -8,7 +8,7 @@ const attention = document.getElementById('attention');
 const shiri_letter = document.getElementById('shiri_letter');
 const player_fif = document.getElementById('player_fif');
 const enemy_fif = document.getElementById('enemy_fif');
-enter.disabled = true;
+enter.disabled = false;
 var enemy = [];
 var player = [];
 var log = [];
@@ -80,9 +80,9 @@ function search_n_disp(word){
 	var rand = Math.floor(Math.random() * 1130528);
 	console.log(rand);
 	if(rand % 2 == 0){
-		for(var i = rand; i < dict.length - rand; i++){
-			if(word == dict[i][2] && tale(dict[i][1]) != 'ン'){
-				if(check_letter(extraction_word(dict[i][1]) , 1)){
+		for(var i = rand; i < dict.length - rand; i = Math.floor(i * 1.1)){
+			if(word == extraction_word(dict[i][2]) && tale(dict[i][1]) != 'ン'){
+				if(check_letter(extraction_word(dict[i][1]) , 1) == true){
 					enemy_word.innerHTML = dict[i][0] + "<br />" + dict[i][1];
 					shiri_letter.innerHTML = tale(extraction_word(dict[i][1]));
 					return;
@@ -91,11 +91,9 @@ function search_n_disp(word){
 		}
 	}else{
 		console.log(rand);
-		for(var i = rand; i > 0; i--){
-			console.log(i);
+		for(var i = rand; i > 0; i = Math.floor(i / 1.1)){
 			if(word == dict[i][2] && tale(dict[i][1]) != 'ン'){
-				
-				if(check_letter(extraction_word(dict[i][1]) , 1)){
+				if(check_letter(extraction_word(dict[i][1]) , 1) == true){
 					enemy_word.innerHTML = dict[i][0] + "<br />" + dict[i][1];
 					shiri_letter.innerHTML = tale(extraction_word(dict[i][1]));
 					return;
@@ -104,7 +102,7 @@ function search_n_disp(word){
 		}
 	}
 	console.log("unko");
-	//search_n_disp(word);
+	search_n_disp(word);
 }
 
 function tale(word){
@@ -162,63 +160,60 @@ function judge(){
 		attention.innerHTML = "有効な単語を入力してください!!";
 		enter.disabled = true;
 	}else{
-		if(check_letter(word , 0)){
+		if(check_letter(word , 0) == true){
 			search_n_disp(tale(word));
 		}
 	}
 }
 
 function check_letter(word , option){
-	console.log(option);
-	var check = 0;
 	if(option == 0){
+		var tmp = player;
 		for(var i = 1; i < word.length; i++){
+			for(var j = 0; j < 45; j++){
+				if(word.substr(i , 1) == tmp[j]){
+					tmp[j] = "　";
+					break;
+				}
+				if(j == 44){
+					attention.innerHTML = "もう使えない文字が含まれています";
+					return false;
+				}
+			}
+		}
+		for(var i = 0; i < word.length; i++){
 			for(var j = 0; j < 45; j++){
 				if(word.substr(i , 1) == player[j]){
-					check++;
+					player[j] == "　";
 					break;
 				}
 			}
 		}
-		if(check == word.length - 1){
-			for(var i = 0; i < word.length; i++){
-				for(var j = 0; j < 45; j++){
-					if(word.substr(i , 1) == player[j]){
-						player[j] == "　";
-						break;
-					}
-				}
-			}
-			return true;
-		}else{
-			attention.innerHTML = "もう使えない文字が含まれています";
-			enter.disabled = true;
-			return false;
-		}
+		disp_fifty();
+		return true;
 	}else{
-		console.log(word);
+		var tmp = enemy;
 		for(var i = 1; i < word.length; i++){
 			for(var j = 0; j < 45; j++){
+				if(word.substr(i , 1) == tmp[j]){
+					tmp[j] = "　";
+					break;
+				}
+				if(j == 44){
+					return false;
+				}
+			}
+		}
+		for(var i = 0; i < word.length; i++){
+			for(var j = 0; j < 45; j++){
 				if(word.substr(i , 1) == enemy[j]){
-					check++;
+					enemy[j] == "　";
 					break;
 				}
 			}
 		}
-		console.log(check);
-		if(check == word.length - 1){
-			for(var i = 0; i < word.length; i++){
-				for(var j = 0; j < 45; j++){
-					if(word.substr(i , 1) == enemy[j]){
-						enemy[j] == "　";
-						break;
-					}
-				}
-			}
-			return true;
-		}else{
-			return false;
-		}
+		disp_fifty();
+		return true;
 	}
 	
 }

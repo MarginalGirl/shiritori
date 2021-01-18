@@ -1,5 +1,5 @@
 body {
-	background: #eeeeee;
+	background: lightgray;
 	font-family: 'Meiryo';
 }
 
@@ -10,12 +10,80 @@ body {
 }
 
 .p{
-	color: red;
-	font-size: 30px;
+	background: #fff;
+	border-radius: 5%;
+	width: 500px;
+	height: 400px;
+	position: absolute;
+	top: 200px;
+}
+
+.b{
+	position: absolute;
+	top: -45px;
+	right: 10px;
+}
+
+
+#start-btn , #stop-btn , #enter-btn{
 	font-weight: bold;
+	font-size: 20px;
+	display: inline-block;
+	padding: 0.3em 0.7em;
+	text-decoration: none;
+	background: #67c5ff;
+	color: #fff;
+	border-radius: 5px;
+	border: none;
+}
+
+
+
+.e{
+	background: #fff;
+	border-radius: 5%;
+	width: 500px;
+	height: 400px;
+	position: absolute;
+	left: 550px;
+	top: 200px;
+}
+
+#pname{
+	color: navy;
+	font-size:40px;
+	font-weight: 500;
+	display: inline;
+	position: absolute;
+	top: -100px;
+	left: 10px;
+}
+
+#ename{
+	color: navy;
+	font-size:40px;
+	font-weight: 500;
+	display: inline;
+	position: absolute;
+	top: -100px;
+	left: 10px;
 }
 
 #attention{
 	color: orange;
 	font-weight: bold;
+}
+
+#player_fif{
+	position: absolute;
+	font-size: 35px;
+	left: 50px;
+	bottom: -25px;
+}
+
+#enemy_fif{
+	position: absolute;
+	font-size: 35px;
+	left: 50px;
+	bottom: -25px;
 }
