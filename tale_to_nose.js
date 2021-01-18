@@ -3,12 +3,13 @@ const stopBtn = document.getElementById('stop-btn');
 const enter = document.getElementById('enter-btn');
 const resultDiv = document.getElementById('result-div');
 const enemy_word = document.getElementById('enemy_word');
+const enemy_read = document.getElementById('enemy_read');
 const player_word = document.getElementById('player_word');
 const attention = document.getElementById('attention');
 const shiri_letter = document.getElementById('shiri_letter');
 const player_fif = document.getElementById('player_fif');
 const enemy_fif = document.getElementById('enemy_fif');
-enter.disabled = false;
+enter.disabled = true;
 var enemy = [];
 var player = [];
 var log = [];
@@ -37,7 +38,7 @@ function getCSV(){
 	var req = new XMLHttpRequest();
 	req.open("get", "dic.csv", true);
 	req.send(null);
-	resultDiv.innerHTML = "ファイル読み込み中";
+	attention.innerHTML = "ファイル読み込み中";
 	
 	req.onload = function(){
 	convertCSVtoArray(req.responseText);
@@ -47,7 +48,7 @@ function getCSV(){
 function convertCSVtoArray(str){
 	var tmp = str.split("\n");
 	for(var i = 0; i < tmp.length; i++) dict[i] = tmp[i].split(',');
-	resultDiv.innerHTML = "";
+	attention.innerHTML = "";
 }
 
 function log_init(){
@@ -76,14 +77,18 @@ function match(word){
 	enter.disabled = true;
 }
 
-function search_n_disp(word){
+function search_n_disp(){
 	var rand = Math.floor(Math.random() * 1130528);
-	console.log(rand);
+	var word = shiri_letter.textContent;
+
 	if(rand % 2 == 0){
-		for(var i = rand; i < dict.length - rand; i = Math.floor(i * 1.1)){
-			if(word == extraction_word(dict[i][2]) && tale(dict[i][1]) != 'ン'){
+		console.log(rand);
+		for(var i = rand; i < dict.length; i = Math.floor(i * 1.001)){
+			if(word == dict[i][1].substr(0 , 1) && tale(dict[i][1]) != 'ン'){
+				console.log(dict[i][1]);
 				if(check_letter(extraction_word(dict[i][1]) , 1) == true){
-					enemy_word.innerHTML = dict[i][0] + "<br />" + dict[i][1];
+					enemy_word.innerHTML = dict[i][0];
+					enemy_read.innerHTML = dict[i][1];
 					shiri_letter.innerHTML = tale(extraction_word(dict[i][1]));
 					return;
 				}
@@ -91,8 +96,9 @@ function search_n_disp(word){
 		}
 	}else{
 		console.log(rand);
-		for(var i = rand; i > 0; i = Math.floor(i / 1.1)){
-			if(word == dict[i][2] && tale(dict[i][1]) != 'ン'){
+		for(var i = rand; i > 0; i = Math.floor(i / 1.001)){
+			if(word == dict[i][1].substr(0 , 1) && tale(dict[i][1]) != 'ン'){
+				console.log(i);
 				if(check_letter(extraction_word(dict[i][1]) , 1) == true){
 					enemy_word.innerHTML = dict[i][0] + "<br />" + dict[i][1];
 					shiri_letter.innerHTML = tale(extraction_word(dict[i][1]));
@@ -161,14 +167,15 @@ function judge(){
 		enter.disabled = true;
 	}else{
 		if(check_letter(word , 0) == true){
-			search_n_disp(tale(word));
+			shiri_letter.innerHTML = tale(word);
+			search_n_disp();
 		}
 	}
 }
 
 function check_letter(word , option){
 	if(option == 0){
-		var tmp = player;
+		var tmp = player.slice();
 		for(var i = 1; i < word.length; i++){
 			for(var j = 0; j < 45; j++){
 				if(word.substr(i , 1) == tmp[j]){
@@ -192,7 +199,7 @@ function check_letter(word , option){
 		disp_fifty();
 		return true;
 	}else{
-		var tmp = enemy;
+		var tmp = enemy.slice();
 		for(var i = 1; i < word.length; i++){
 			for(var j = 0; j < 45; j++){
 				if(word.substr(i , 1) == tmp[j]){
@@ -221,6 +228,9 @@ function check_letter(word , option){
 function disp_fifty(){
 	var p_fif = "";
 	var e_fif = "";
+	var p = 0;
+	var e = 0;
+
 	for(var i = 0; i < 45; i++){
 		if(i == 10){
 			p_fif = p_fif + player[i] + "<br>" + "　　";
@@ -247,10 +257,20 @@ function disp_fifty(){
 	}
 	player_fif.innerHTML = p_fif;
 	enemy_fif.innerHTML = e_fif;
+	for(var i = 0; i < 45; i++){
+		if(player[i] != "　") p++;
+		if(enemy[i] != "　") e++;
+	}
+	if(p == 0){
+		attention.innerHTML = "あなたの勝ちです!!!!";
+	}
+	if(e == 0){
+		attention.innerHTML = "あなたの負けです!!!!";
+	}
 }
 
 startBtn.onclick = function(){
-	attention.innerHTML = "<br>";
+	attention.innerHTML = "";
 	recognition.start();
 }
 stopBtn.onclick = function(){
