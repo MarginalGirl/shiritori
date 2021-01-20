@@ -49,16 +49,15 @@ function convertCSVtoArray(str){
 	var tmp = str.split("\n");
 	for(var i = 0; i < tmp.length; i++) dict[i] = tmp[i].split(',');
 	attention.innerHTML = "";
-
 }
 
 function log_init(){
 	log = [];
-	player = ["　","　","　","　","　","　","　","　","　","　","ア"
-			,"　","　","　","　","　","　","　","　"
-			,"ル","　","　","　","　","　","　","　","　"
-			,"　","　","　","　","　","　","　","　"
-			,"　","　","　","　","　","　","　","　","　"];
+	player = ["ン","ワ","ラ","ヤ","マ","ハ","ナ","タ","サ","カ","ア"
+			,"リ","ミ","ヒ","ニ","チ","シ","キ","イ"
+			,"ル","ユ","ム","フ","ヌ","ツ","ス","ク","ウ"
+			,"レ","メ","ヘ","ネ","テ","セ","ケ","エ"
+			,"ロ","ヨ","モ","ホ","ノ","ト","ソ","コ","オ"];
 	enemy = ["ン","ワ","ラ","ヤ","マ","ハ","ナ","タ","サ","カ","ア"
 			,"リ","ミ","ヒ","ニ","チ","シ","キ","イ"
 			,"ル","ユ","ム","フ","ヌ","ツ","ス","ク","ウ"
@@ -88,6 +87,8 @@ function search_n_disp(){
 				if(check_letter(extraction_word(dict[i][1]) , 1) == true){
 					enemy_word.innerHTML = dict[i][0];
 					enemy_read.innerHTML = dict[i][1];
+					const uttr = new SpeechSynthesisUtterance(dict[i][0]);
+					speechSynthesis.speak(uttr);
 					shiri_letter.innerHTML = extraction_word(dict[i][1]).substr(dict[i][1].length - 2 , 1);
 					return;
 				}
@@ -100,6 +101,8 @@ function search_n_disp(){
 				if(check_letter(extraction_word(dict[i][1]) , 1) == true){
 					enemy_word.innerHTML = dict[i][0];
 					enemy_read.innerHTML = dict[i][1];
+					const uttr = new SpeechSynthesisUtterance(dict[i][0]);
+					speechSynthesis.speak(uttr);
 					shiri_letter.innerHTML = extraction_word(dict[i][1]).substr(dict[i][1].length - 2 , 1);
 					return;
 				}
