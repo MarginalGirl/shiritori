@@ -176,6 +176,7 @@ function judge(){
 function check_letter(word , option){
 	if(option == 0){
 		var tmp = player.slice();
+		console.log(player);
 		for(var i = 1; i < word.length; i++){
 			for(var j = 0; j < 45; j++){
 				if(word.substr(i , 1) == tmp[j]){
@@ -188,14 +189,16 @@ function check_letter(word , option){
 				}
 			}
 		}
-		for(var i = 0; i < word.length; i++){
-			for(var j = 0; j < 45; j++){
-				if(word.substr(i , 1) == player[j]){
-					player[j] == "　";
+		console.log(tmp);
+		for(var k = 1; k < word.length; k++){
+			for(var l = 0; l < 45; l++){
+				if(word.substr(k , 1) == player[l]){
+					player[l] == "　";
 					break;
 				}
 			}
 		}
+		console.log(player);
 		disp_fifty();
 		return true;
 	}else{
@@ -211,7 +214,7 @@ function check_letter(word , option){
 				}
 			}
 		}
-		for(var i = 0; i < word.length; i++){
+		for(var i = 1; i < word.length; i++){
 			for(var j = 0; j < 45; j++){
 				if(word.substr(i , 1) == enemy[j]){
 					enemy[j] == "　";
