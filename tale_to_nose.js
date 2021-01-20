@@ -49,15 +49,16 @@ function convertCSVtoArray(str){
 	var tmp = str.split("\n");
 	for(var i = 0; i < tmp.length; i++) dict[i] = tmp[i].split(',');
 	attention.innerHTML = "";
+
 }
 
 function log_init(){
 	log = [];
-	player = ["ン","ワ","ラ","ヤ","マ","ハ","ナ","タ","サ","カ","ア"
-			,"リ","ミ","ヒ","ニ","チ","シ","キ","イ"
-			,"ル","ユ","ム","フ","ヌ","ツ","ス","ク","ウ"
-			,"レ","メ","ヘ","ネ","テ","セ","ケ","エ"
-			,"ロ","ヨ","モ","ホ","ノ","ト","ソ","コ","オ"];
+	player = ["　","　","　","　","　","　","　","　","　","　","ア"
+			,"　","　","　","　","　","　","　","　"
+			,"ル","　","　","　","　","　","　","　","　"
+			,"　","　","　","　","　","　","　","　"
+			,"　","　","　","　","　","　","　","　","　"];
 	enemy = ["ン","ワ","ラ","ヤ","マ","ハ","ナ","タ","サ","カ","ア"
 			,"リ","ミ","ヒ","ニ","チ","シ","キ","イ"
 			,"ル","ユ","ム","フ","ヌ","ツ","ス","ク","ウ"
@@ -80,39 +81,32 @@ function match(word){
 function search_n_disp(){
 	var rand = Math.floor(Math.random() * 1130528);
 	var word = shiri_letter.textContent;
-
 	if(rand % 2 == 0){
-		console.log(rand);
 		for(var i = rand; i < dict.length; i = Math.floor(i * 1.001)){
-			if(word == dict[i][1].substr(0 , 1) && tale(dict[i][1]) != 'ン'){
+			if(word == dict[i][1].substr(0 , 1) && dict[i][1].substr(dict[i][1].length - 2 , 1) != 'ン'){
 				console.log(dict[i][1]);
 				if(check_letter(extraction_word(dict[i][1]) , 1) == true){
 					enemy_word.innerHTML = dict[i][0];
 					enemy_read.innerHTML = dict[i][1];
-					shiri_letter.innerHTML = tale(extraction_word(dict[i][1]));
+					shiri_letter.innerHTML = extraction_word(dict[i][1]).substr(dict[i][1].length - 2 , 1);
 					return;
 				}
 			}
 		}
 	}else{
-		console.log(rand);
 		for(var i = rand; i > 0; i = Math.floor(i / 1.001)){
-			if(word == dict[i][1].substr(0 , 1) && tale(dict[i][1]) != 'ン'){
+			if(word == dict[i][1].substr(0 , 1) && dict[i][1].substr(dict[i][1].length - 2 , 1) != 'ン'){
 				console.log(i);
 				if(check_letter(extraction_word(dict[i][1]) , 1) == true){
-					enemy_word.innerHTML = dict[i][0] + "<br />" + dict[i][1];
-					shiri_letter.innerHTML = tale(extraction_word(dict[i][1]));
+					enemy_word.innerHTML = dict[i][0];
+					enemy_read.innerHTML = dict[i][1];
+					shiri_letter.innerHTML = extraction_word(dict[i][1]).substr(dict[i][1].length - 2 , 1);
 					return;
 				}
 			}
 		}
 	}
-	console.log("unko");
 	search_n_disp(word);
-}
-
-function tale(word){
-	return word.substr(word.length - 1 , 1);
 }
 
 function extraction_word(word){
@@ -162,12 +156,13 @@ function extraction_word(word){
 
 function judge(){
 	var word = extraction_word(player_word.textContent);
-	if(word.substr(0 , 1) != shiri_letter.textContent || tale(word) == "ン"){
+	if(word.substr(0 , 1) != shiri_letter.textContent || word.substr((word.length - 2) , 1) == "ン"){
 		attention.innerHTML = "有効な単語を入力してください!!";
 		enter.disabled = true;
 	}else{
 		if(check_letter(word , 0) == true){
-			shiri_letter.innerHTML = tale(word);
+			console.log(word.length);
+			shiri_letter.innerHTML = word.substr((word.length - 2) , 1);
 			search_n_disp();
 		}
 	}
@@ -175,35 +170,31 @@ function judge(){
 
 function check_letter(word , option){
 	if(option == 0){
+		console.log(word);
 		var tmp = player.slice();
-		console.log(player);
-		for(var i = 1; i < word.length; i++){
+		for(var i = 1; i < word.length - 1; i++){
 			for(var j = 0; j < 45; j++){
 				if(word.substr(i , 1) == tmp[j]){
 					tmp[j] = "　";
 					break;
 				}
 				if(j == 44){
+					console.log(i);
 					attention.innerHTML = "もう使えない文字が含まれています";
+					disp_fifty();
 					return false;
 				}
 			}
 		}
-		console.log(tmp);
-		for(var k = 1; k < word.length; k++){
-			for(var l = 0; l < 45; l++){
-				if(word.substr(k , 1) == player[l]){
-					player[l] == "　";
-					break;
-				}
-			}
+		for(var j = 0; j < 45; j++){
+			player[j] = tmp[j];
 		}
 		console.log(player);
 		disp_fifty();
 		return true;
 	}else{
 		var tmp = enemy.slice();
-		for(var i = 1; i < word.length; i++){
+		for(var i = 1; i < word.length - 1; i++){
 			for(var j = 0; j < 45; j++){
 				if(word.substr(i , 1) == tmp[j]){
 					tmp[j] = "　";
@@ -214,13 +205,9 @@ function check_letter(word , option){
 				}
 			}
 		}
-		for(var i = 1; i < word.length; i++){
-			for(var j = 0; j < 45; j++){
-				if(word.substr(i , 1) == enemy[j]){
-					enemy[j] == "　";
-					break;
-				}
-			}
+		console.log(tmp);
+		for(var j = 0; j < 45; j++){
+			enemy[j] = tmp[j];
 		}
 		disp_fifty();
 		return true;
