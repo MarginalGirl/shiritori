@@ -9,14 +9,11 @@ const attention = document.getElementById('attention');
 const shiri_letter = document.getElementById('shiri_letter');
 const player_fif = document.getElementById('player_fif');
 const enemy_fif = document.getElementById('enemy_fif');
+const log_box = document.getElementById('log_box');
 enter.disabled = true;
-var enemy = [];
-var player = [];
 var log = [];
 var dict = [];
 getCSV();
-log_init();
-disp_fifty();
 
 SpeechRecognition = webkitSpeechRecognition || SpeechRecognition;
 let recognition = new SpeechRecognition();
@@ -51,20 +48,6 @@ function convertCSVtoArray(str){
 	attention.innerHTML = "";
 }
 
-function log_init(){
-	log = [];
-	player = ["ン","ワ","ラ","ヤ","マ","ハ","ナ","タ","サ","カ","ア"
-			,"リ","ミ","ヒ","ニ","チ","シ","キ","イ"
-			,"ル","ユ","ム","フ","ヌ","ツ","ス","ク","ウ"
-			,"レ","メ","ヘ","ネ","テ","セ","ケ","エ"
-			,"ロ","ヨ","モ","ホ","ノ","ト","ソ","コ","オ"];
-	enemy = ["ン","ワ","ラ","ヤ","マ","ハ","ナ","タ","サ","カ","ア"
-			,"リ","ミ","ヒ","ニ","チ","シ","キ","イ"
-			,"ル","ユ","ム","フ","ヌ","ツ","ス","ク","ウ"
-			,"レ","メ","ヘ","ネ","テ","セ","ケ","エ"
-			,"ロ","ヨ","モ","ホ","ノ","ト","ソ","コ","オ"];
-}
-
 function match(word){
 	for(var i = 0; i < dict.length; i++){
 		if(word == dict[i][0]){
@@ -81,29 +64,35 @@ function search_n_disp(){
 	var rand = Math.floor(Math.random() * 1130528);
 	var word = shiri_letter.textContent;
 	if(rand % 2 == 0){
-		for(var i = rand; i < dict.length; i = Math.floor(i * 1.001)){
+		for(var i = rand; i < dict.length; i += 1000){
 			if(word == dict[i][1].substr(0 , 1) && dict[i][1].substr(dict[i][1].length - 2 , 1) != 'ン'){
-				console.log(dict[i][1]);
-				if(check_letter(extraction_word(dict[i][1]) , 1) == true){
+				for(var kk = 0; kk < log.length; kk++){
+					if(dict[i][0] == log[kk]) break;
 					enemy_word.innerHTML = dict[i][0];
 					enemy_read.innerHTML = dict[i][1];
+					var ll = log.length;
+					log[ll] = dict[i][0];
 					const uttr = new SpeechSynthesisUtterance(dict[i][0]);
 					speechSynthesis.speak(uttr);
 					shiri_letter.innerHTML = extraction_word(dict[i][1]).substr(dict[i][1].length - 2 , 1);
+					log_disp();
 					return;
 				}
 			}
 		}
 	}else{
-		for(var i = rand; i > 0; i = Math.floor(i / 1.001)){
+		for(var i = rand; i > 0; i -= 1000){
 			if(word == dict[i][1].substr(0 , 1) && dict[i][1].substr(dict[i][1].length - 2 , 1) != 'ン'){
-				console.log(i);
-				if(check_letter(extraction_word(dict[i][1]) , 1) == true){
+				for(var kk = 0; kk < log.length; kk++){
+					if(dict[i][0] == log[kk]) break;
 					enemy_word.innerHTML = dict[i][0];
 					enemy_read.innerHTML = dict[i][1];
+					var ll = log.length;
+					log[ll] = dict[i][0];
 					const uttr = new SpeechSynthesisUtterance(dict[i][0]);
 					speechSynthesis.speak(uttr);
 					shiri_letter.innerHTML = extraction_word(dict[i][1]).substr(dict[i][1].length - 2 , 1);
+					log_disp();
 					return;
 				}
 			}
@@ -159,107 +148,32 @@ function extraction_word(word){
 
 function judge(){
 	var word = extraction_word(player_word.textContent);
+	for(var i = 0; i < log.length; i++){
+		if(player_word.textContent == log[i]){
+			attention.innerHTML = "同じ単語は二度使えません!!";
+			enter.disabled = true;
+			return;
+		}
+	}
 	if(word.substr(0 , 1) != shiri_letter.textContent || word.substr((word.length - 2) , 1) == "ン"){
 		attention.innerHTML = "有効な単語を入力してください!!";
 		enter.disabled = true;
 	}else{
-		if(check_letter(word , 0) == true){
-			console.log(word.length);
-			shiri_letter.innerHTML = word.substr((word.length - 2) , 1);
-			search_n_disp();
-		}
+		shiri_letter.innerHTML = word.substr((word.length - 2) , 1);
+		var ll = log.length;
+		log[ll] = player_word.textContent;
+		log_disp();
+		search_n_disp();
 	}
 }
 
-function check_letter(word , option){
-	if(option == 0){
-		console.log(word);
-		var tmp = player.slice();
-		for(var i = 1; i < word.length - 1; i++){
-			for(var j = 0; j < 45; j++){
-				if(word.substr(i , 1) == tmp[j]){
-					tmp[j] = "　";
-					break;
-				}
-				if(j == 44){
-					console.log(i);
-					attention.innerHTML = "もう使えない文字が含まれています";
-					disp_fifty();
-					return false;
-				}
-			}
-		}
-		for(var j = 0; j < 45; j++){
-			player[j] = tmp[j];
-		}
-		console.log(player);
-		disp_fifty();
-		return true;
-	}else{
-		var tmp = enemy.slice();
-		for(var i = 1; i < word.length - 1; i++){
-			for(var j = 0; j < 45; j++){
-				if(word.substr(i , 1) == tmp[j]){
-					tmp[j] = "　";
-					break;
-				}
-				if(j == 44){
-					return false;
-				}
-			}
-		}
-		console.log(tmp);
-		for(var j = 0; j < 45; j++){
-			enemy[j] = tmp[j];
-		}
-		disp_fifty();
-		return true;
+function log_disp(){
+	var log_cont = "";
+	for(var k = 0; k < log.length; k++){
+		if(k % 2 == 0) log_cont = log_cont + "P：" + log[k] + "<br>";
+		else log_cont = log_cont + "E：" + log[k] + "<br>";
 	}
-	
-}
-
-function disp_fifty(){
-	var p_fif = "";
-	var e_fif = "";
-	var p = 0;
-	var e = 0;
-
-	for(var i = 0; i < 45; i++){
-		if(i == 10){
-			p_fif = p_fif + player[i] + "<br>" + "　　";
-			e_fif = e_fif + enemy[i] + "<br>" + "　　";
-		}else if(i == 11){
-			p_fif = p_fif + player[i] + "　";
-			e_fif = e_fif + enemy[i] + "　";
-		}else if(i == 18){
-			p_fif = p_fif + player[i] + "<br>" + "　　";
-			e_fif = e_fif + enemy[i] + "<br>" + "　　";
-		}else if(i == 27){
-			p_fif = p_fif + player[i] + "<br>" + "　　";
-			e_fif = e_fif + enemy[i] + "<br>" + "　　";
-		}else if(i == 28){
-			p_fif = p_fif + player[i] + "　";
-			e_fif = e_fif + enemy[i] + "　";
-		}else if(i == 35){
-			p_fif = p_fif + player[i] + "<br>" + "　　";
-			e_fif = e_fif + enemy[i] + "<br>" + "　　";
-		}else{
-			p_fif = p_fif + player[i];
-			e_fif = e_fif + enemy[i];
-		}
-	}
-	player_fif.innerHTML = p_fif;
-	enemy_fif.innerHTML = e_fif;
-	for(var i = 0; i < 45; i++){
-		if(player[i] != "　") p++;
-		if(enemy[i] != "　") e++;
-	}
-	if(p == 0){
-		attention.innerHTML = "あなたの勝ちです!!!!";
-	}
-	if(e == 0){
-		attention.innerHTML = "あなたの負けです!!!!";
-	}
+	log_box.innerHTML = log_cont;
 }
 
 startBtn.onclick = function(){

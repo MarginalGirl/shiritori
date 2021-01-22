@@ -16,7 +16,7 @@ body {
 	background: #fff;
 	border-radius: 5%;
 	width: 500px;
-	height: 500px;
+	height: 300px;
 	position: absolute;
 	top: 120px;
 }
@@ -58,7 +58,7 @@ body {
 	background: #fff;
 	border-radius: 5%;
 	width: 500px;
-	height: 500px;
+	height: 300px;
 	position: absolute;
 	left: 550px;
 	top: 120px;
@@ -82,6 +82,16 @@ body {
 	position: absolute;
 	top: -100px;
 	left: 10px;
+}
+
+#log_name{
+	color: navy;
+	font-size:40px;
+	font-weight: 500;
+	display: inline;
+	position: absolute;
+	top: 25px;
+	left: 1100px;
 }
 
 #next{
@@ -113,20 +123,6 @@ body {
 	left: 50px;
 }
 
-#player_fif{
-	position: absolute;
-	font-size: 35px;
-	left: 50px;
-	bottom: -25px;
-}
-
-#enemy_fif{
-	position: absolute;
-	font-size: 35px;
-	left: 50px;
-	bottom: -25px;
-}
-
 #rink{
 	font-weight: bold;
 	font-size: 20px;
@@ -145,14 +141,4 @@ body {
 #rink:hover {
 	background: #67c5ff;
 	color: white;
-}
-
-#log_name{
-	color: navy;
-	font-size:40px;
-	font-weight: 500;
-	display: inline;
-	position: absolute;
-	top: 25px;
-	left: 1100px;
 }

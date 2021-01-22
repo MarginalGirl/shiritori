@@ -2,9 +2,9 @@
 <html lang="ja">
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="dttn.css">
+	<link rel="stylesheet" type="text/css" href="shiritori.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>しりとり</title>
+	<title>普通のしりとり</title>
 </head>
 <body>
 	<p id="next">次の文字-></p>
@@ -17,19 +17,21 @@
 	</div>
 	<p id="result-div"><br></p>
 	<p id="player_word"><br></p>
-	<p id="player_fif"></p>
 	<p id="attention"></p>
 	</div>
-	
 	
 	<div id="shiri_letter">リ</div><br>
 	<div class="e">
 	<p id="ename">Enemy</p>
 	<p id="enemy_word"></p>
 	<p id="enemy_read"></p>
-	<p id="enemy_fif"></p>
 	</div>
 
-	<script src = "tale_to_nose.js"></script>
+	<p id="log_name">History</p>
+	<div id="log_box"></div>
+
+	<button id="rink" onclick="location.href='dttn.html'">消去しりとりをプレイ</button>
+
+	<script src = "shiritori.js"></script>
 </body>
 </html>

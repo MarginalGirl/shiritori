@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="dttn.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>消去しりとり</title>
+</head>
+<body>
+	<p id="next">次の文字-></p>
+	<div class="p">
+	<p id="pname">Player</p>
+	<div class="b">
+	<button id="start-btn">録音</button>
+	<button id="stop-btn">ストップ</button>
+	<button id="enter-btn">決定</button>
+	</div>
+	<p id="result-div"><br></p>
+	<p id="player_word"><br></p>
+	<p id="player_fif"></p>
+	<p id="attention"></p>
+	</div>
+	
+	
+	<div id="shiri_letter">リ</div><br>
+	<div class="e">
+	<p id="ename">Enemy</p>
+	<p id="enemy_word"></p>
+	<p id="enemy_read"></p>
+	<p id="enemy_fif"></p>
+	</div>
+	
+	<p id="log_name">History</p>
+	<div id="log_box"></div>
+
+	<button id="rink" onclick="location.href='shiritori.html'">普通のしりとりをプレイ</button>
+
+	<script src = "dttn.js"></script>
+</body>
+</html>
