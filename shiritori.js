@@ -72,7 +72,7 @@ function search_n_disp(){
 					enemy_read.innerHTML = dict[i][1];
 					var ll = log.length;
 					log[ll] = dict[i][0];
-					const uttr = new SpeechSynthesisUtterance(dict[i][0]);
+					const uttr = new SpeechSynthesisUtterance(dict[i][1]);
 					speechSynthesis.speak(uttr);
 					shiri_letter.innerHTML = extraction_word(dict[i][1]).substr(dict[i][1].length - 2 , 1);
 					log_disp();
@@ -89,7 +89,7 @@ function search_n_disp(){
 					enemy_read.innerHTML = dict[i][1];
 					var ll = log.length;
 					log[ll] = dict[i][0];
-					const uttr = new SpeechSynthesisUtterance(dict[i][0]);
+					const uttr = new SpeechSynthesisUtterance(dict[i][1]);
 					speechSynthesis.speak(uttr);
 					shiri_letter.innerHTML = extraction_word(dict[i][1]).substr(dict[i][1].length - 2 , 1);
 					log_disp();
